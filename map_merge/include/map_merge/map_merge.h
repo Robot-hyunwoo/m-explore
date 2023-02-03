@@ -52,7 +52,8 @@
 
 namespace map_merge
 {
-struct MapSubscription {
+struct MapSubscription
+{
   // protects consistency of writable_map and readonly_map
   // also protects reads and writes of shared_ptrs
   std::mutex mutex;
@@ -96,10 +97,8 @@ private:
   bool isRobotMapTopic(const ros::master::TopicInfo& topic);
   bool getInitPose(const std::string& name, geometry_msgs::Transform& pose);
 
-  void fullMapUpdate(const nav_msgs::OccupancyGrid::ConstPtr& msg,
-                     MapSubscription& map);
-  void partialMapUpdate(const map_msgs::OccupancyGridUpdate::ConstPtr& msg,
-                        MapSubscription& map);
+  void fullMapUpdate(const nav_msgs::OccupancyGrid::ConstPtr& msg, MapSubscription& map);
+  void partialMapUpdate(const map_msgs::OccupancyGridUpdate::ConstPtr& msg, MapSubscription& map);
 
 public:
   MapMerge();

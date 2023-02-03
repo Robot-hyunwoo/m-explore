@@ -100,20 +100,19 @@ template <typename InputIt>
 bool MergingPipeline::setTransforms(InputIt transforms_begin,
                                     InputIt transforms_end)
 {
-  static_assert(std::is_assignable<geometry_msgs::Transform&,
-                                   decltype(*transforms_begin)>::value,
-                "transforms_begin must point to geometry_msgs::Transform "
-                "data");
+  static_assert(std::is_assignable<geometry_msgs::Transform&, decltype(*transforms_begin)>::value, "transforms_begin must point to geometry_msgs::Transform data");
 
   decltype(transforms_) transforms_buf;
-  for (InputIt it = transforms_begin; it != transforms_end; ++it) {
+  for (InputIt it = transforms_begin; it != transforms_end; ++it)
+  {
     const geometry_msgs::Quaternion& q = it->rotation;
-    if ((q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w) <
-        std::numeric_limits<double>::epsilon()) {
+    if ((q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w) < std::numeric_limits<double>::epsilon())
+    {
       // represents invalid transform
       transforms_buf.emplace_back();
       continue;
     }
+
     double s = 2.0 / (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
     double a = 1 - q.y * q.y * s - q.z * q.z * s;
     double b = q.x * q.y * s + q.z * q.w * s;
@@ -129,7 +128,8 @@ bool MergingPipeline::setTransforms(InputIt transforms_begin,
     transforms_buf.emplace_back(std::move(transform));
   }
 
-  if (transforms_buf.size() != images_.size()) {
+  if (transforms_buf.size() != images_.size())
+  {
     return false;
   }
   std::swap(transforms_, transforms_buf);
