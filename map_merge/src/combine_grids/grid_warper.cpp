@@ -35,9 +35,7 @@
  *********************************************************************/
 
 #include <combine_grids/grid_warper.h>
-
 #include <opencv2/stitching/detail/warpers.hpp>
-
 #include <ros/assert.h>
 
 namespace combine_grids
@@ -54,9 +52,7 @@ cv::Rect GridWarper::warp(const cv::Mat& grid, const cv::Mat& transform,
   // shift top left corner for warp affine (otherwise the image is cropped)
   H.at<double>(0, 2) -= roi.tl().x;
   H.at<double>(1, 2) -= roi.tl().y;
-  warpAffine(grid, warped_grid, H, roi.size(), cv::INTER_NEAREST,
-             cv::BORDER_CONSTANT,
-             cv::Scalar::all(255) /* this is -1 for signed char */);
+  warpAffine(grid, warped_grid, H, roi.size(), cv::INTER_NEAREST, cv::BORDER_CONSTANT, cv::Scalar::all(255) /* this is -1 for signed char */);
   ROS_ASSERT(roi.size() == warped_grid.size());
 
   return roi;
@@ -64,8 +60,7 @@ cv::Rect GridWarper::warp(const cv::Mat& grid, const cv::Mat& transform,
 
 cv::Rect GridWarper::warpRoi(const cv::Mat& grid, const cv::Mat& transform)
 {
-  cv::Ptr<cv::detail::PlaneWarper> warper =
-      cv::makePtr<cv::detail::PlaneWarper>();
+  cv::Ptr<cv::detail::PlaneWarper> warper = cv::makePtr<cv::detail::PlaneWarper>();
   cv::Mat H;
   transform.convertTo(H, CV_32F);
 

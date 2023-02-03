@@ -35,9 +35,7 @@
  *********************************************************************/
 
 #include <combine_grids/grid_compositor.h>
-
 #include <opencv2/stitching/detail/util.hpp>
-
 #include <ros/assert.h>
 
 namespace combine_grids
@@ -55,7 +53,8 @@ nav_msgs::OccupancyGrid::Ptr GridCompositor::compose(
   corners.reserve(grids.size());
   std::vector<cv::Size> sizes;
   sizes.reserve(grids.size());
-  for (auto& roi : rois) {
+  for (auto& roi : rois)
+  {
     corners.push_back(roi.tl());
     sizes.push_back(roi.size());
   }
@@ -67,7 +66,8 @@ nav_msgs::OccupancyGrid::Ptr GridCompositor::compose(
   // create view for opencv pointing to newly allocated grid
   cv::Mat result(dst_roi.size(), CV_8S, result_grid->data.data());
 
-  for (size_t i = 0; i < grids.size(); ++i) {
+  for (size_t i = 0; i < grids.size(); ++i)
+  {
     // we need to compensate global offset
     cv::Rect roi = cv::Rect(corners[i] - dst_roi.tl(), sizes[i]);
     cv::Mat result_roi(result, roi);
