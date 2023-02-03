@@ -47,8 +47,7 @@
 
 namespace combine_grids
 {
-bool MergingPipeline::estimateTransforms(FeatureType feature_type,
-                                         double confidence)
+bool MergingPipeline::estimateTransforms(FeatureType feature_type, double confidence)
 {
   std::vector<cv::detail::ImageFeatures> image_features;
   std::vector<cv::detail::MatchesInfo> pairwise_matches;
@@ -56,12 +55,9 @@ bool MergingPipeline::estimateTransforms(FeatureType feature_type,
   std::vector<int> good_indices;
   // TODO investigate value translation effect on features
   auto finder = internal::chooseFeatureFinder(feature_type);
-  cv::Ptr<cv::detail::FeaturesMatcher> matcher =
-      cv::makePtr<cv::detail::AffineBestOf2NearestMatcher>();
-  cv::Ptr<cv::detail::Estimator> estimator =
-      cv::makePtr<cv::detail::AffineBasedEstimator>();
-  cv::Ptr<cv::detail::BundleAdjusterBase> adjuster =
-      cv::makePtr<cv::detail::BundleAdjusterAffinePartial>();
+  cv::Ptr<cv::detail::FeaturesMatcher> matcher = cv::makePtr<cv::detail::AffineBestOf2NearestMatcher>();
+  cv::Ptr<cv::detail::Estimator> estimator = cv::makePtr<cv::detail::AffineBasedEstimator>();
+  cv::Ptr<cv::detail::BundleAdjusterBase> adjuster = cv::makePtr<cv::detail::BundleAdjusterAffinePartial>();
 
   if (images_.empty()) {
     return true;
@@ -93,8 +89,7 @@ bool MergingPipeline::estimateTransforms(FeatureType feature_type,
 
   /* use only matches that has enough confidence. leave out matches that are not
    * connected (small components) */
-  good_indices = cv::detail::leaveBiggestComponent(
-      image_features, pairwise_matches, static_cast<float>(confidence));
+  good_indices = cv::detail::leaveBiggestComponent(image_features, pairwise_matches, static_cast<float>(confidence));
 
   // no match found. try set first non-empty grid as reference frame. we try to
   // avoid setting empty grid as reference frame, in case some maps never
